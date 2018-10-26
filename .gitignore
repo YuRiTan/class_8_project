@@ -112,3 +112,15 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# secrets
+.secrets*
+
+# PyCharm
+.idea
+
+# Data
+data/
+*.txt
+*.csv
+*.json
