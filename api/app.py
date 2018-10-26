@@ -22,5 +22,5 @@ if __name__ == '__main__':
 
     # run web server
     app.run(host=app.config.get('HOST'),
-            debug=app.config.get('DEBUG_MODE'),
+            debug=app.config.get('DEBUG'),
             port=app.config.get('PORT'))
