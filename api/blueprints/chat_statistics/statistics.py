@@ -1,8 +1,12 @@
 from flask import Blueprint, jsonify, request
 import pandas as pd
 import re
+from utils import etl
 
 statistics = Blueprint('statistics', __name__)
+
+result_dict = {}
+return_dict = {'status': 0, 'result': {}}
 
 
 @statistics.route('/whatsapi/api/v0.1/getstatistics', methods=['POST'])
@@ -10,7 +14,13 @@ def main():
     input_data = request.data.decode()
     df = pre_process_data(input_data)
 
-    return jsonify(response="Hello World!"), 200
+    result_dict['most_active_users'] = etl.most_active_users(df)
+    result_dict['most_active_days'] = etl.most_active_days(df)
+    result_dict['number_of_active_members'] = etl.number_of_active_members(df)
+    result_dict['number_of_messages'] = etl.number_of_messages(df)
+    return_dict['status'] = 1
+    return_dict['result'] = result_dict
+    return jsonify(return_dict)
 
 
 def pre_process_data(text):
