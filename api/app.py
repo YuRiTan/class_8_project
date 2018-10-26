@@ -18,9 +18,9 @@ def ping():
 
 
 if __name__ == '__main__':
-    logger = get_logger(app.config.get('loglevel'))
+    logger = get_logger(app.config.get('LOGLEVEL'))
 
     # run web server
-    app.run(host=app.config.get('host'),
-            debug=app.config.get('debug_mode'),
-            port=app.config.get('port'))
+    app.run(host=app.config.get('HOST'),
+            debug=app.config.get('DEBUG_MODE'),
+            port=app.config.get('PORT'))
