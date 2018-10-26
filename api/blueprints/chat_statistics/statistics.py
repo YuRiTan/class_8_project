@@ -11,6 +11,7 @@ return_dict = {'status': 0, 'result': {}}
 
 @statistics.route('/whatsapi/api/v0.1/getstatistics', methods=['POST'])
 def main():
+    """ Given a WhatsApp chat export file, calculates and returns several statistics """
     input_data = request.data.decode()
     df = pre_process_data(input_data)
 
@@ -24,7 +25,11 @@ def main():
 
 
 def pre_process_data(text):
+    """ Pre processes the uploaded WhatsApp data (txt), extracts some features, and returns a dataframe.
 
+    :param text: (str) raw input from Whatsapp chat export (txt)
+    :return: (Pandas Dataframe) returns dataframe with cleaned/extracted features
+    """
     # split text on the date string that occurs at the start of every message
     message_regex = r"\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] "
     split_messages = re.split(message_regex, text)
@@ -39,11 +44,11 @@ def pre_process_data(text):
 
     # Seperate message texts into sender and message
     df[['sender', 'message']] = df.text.str.extract("(.*?):(.*)", expand=True, flags=re.DOTALL)
-    df = df.set_index('timestamp').sort_index()
+    df = df.sort_values('timestamp', ascending=True)
 
-    return df[['sender', 'message']]
+    return df[['sender', 'message', 'timestamp']]
 
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ['txt', 'json']
+    """ Checks if filetype is suited for this application """
+    return '.' in filename and filename.rsplit('.', 1)[1] in ['txt', 'json']

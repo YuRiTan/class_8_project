@@ -1,11 +1,4 @@
-import pandas as pd
 import operator
-
-
-def data_prepatation(df):
-    df = pd.read_csv('utils/test_df.csv')
-    df['timestamp2'] = pd.to_datetime(df['timestamp2'])
-    df['weekday'] = df['timestamp2'].dt.weekday_name
 
 
 def most_active_users(df):
@@ -17,7 +10,8 @@ def most_active_users(df):
 
 
 def most_active_days(df):
-    messages_per_day = df.groupby(['weekday']).count().text.to_dict()
+    df['weekday'] = df['timestamp'].dt.weekday_name
+    messages_per_day = df.groupby(['weekday']).count().sender.to_dict()
     messages_per_day = sorted(messages_per_day.items(), key=operator.itemgetter(1), reverse=True)
     return messages_per_day
 
