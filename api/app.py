@@ -1,11 +1,15 @@
 from flask import Flask, jsonify
 from utils.logger import get_logger
+from blueprints.chat_statistics.statistics import statistics
 
 
 # initialize flask application
 app = Flask(__name__)
+
 app.config.from_envvar('secrets')
 app.config['BUNDLE_ERRORS'] = True
+
+app.register_blueprint(statistics)
 
 
 @app.route('/helloworld')
