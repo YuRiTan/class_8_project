@@ -26,6 +26,9 @@ class InitChatStat(unittest.TestCase):
 
 
 class TestChatStat(InitChatStat):
+    # TODO test edge-cases, perhaps tests that include failures we should cover?
+    def test_basic_statistics(self):
+        self.assertEqual(self.ChatStats.basic_statistics, {'active_members': 2, 'total_messages': 2})
 
     def test_most_active_users(self):
         self.ChatStats.most_active_users()
@@ -34,6 +37,8 @@ class TestChatStat(InitChatStat):
     def test_most_active_days(self):
         self.ChatStats.most_active_days()
         self.assertEqual(self.ChatStats.active_days, [('Sunday', 2)])
+
+
 
 
 class TestApp(InitTest):
