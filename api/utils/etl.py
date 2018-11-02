@@ -1,24 +1,39 @@
-import operator
+import pandas as pd
+import re
 
 
-def most_active_users(df):
-    counts = df.sender.value_counts()
-    top_senders = counts.head(5)
-    result = top_senders.to_dict()
-    result = sorted(result.items(), key=operator.itemgetter(1), reverse=True)
-    return result
+
+def parse_from_stream(data):
+    # split text on the date string that occurs at the start of every message
+    print(data)
+    return pre_process_data(data)
+
+def parse_from_file(path):
+    with open(path, 'r') as f:
+        text = f.read()
+    return pre_process_data(text)
 
 
-def most_active_days(df):
-    df['weekday'] = df['timestamp'].dt.weekday_name
-    messages_per_day = df.groupby(['weekday']).count().sender.to_dict()
-    messages_per_day = sorted(messages_per_day.items(), key=operator.itemgetter(1), reverse=True)
-    return messages_per_day
+def pre_process_data(data):
+    """ Pre processes the uploaded WhatsApp data (txt), extracts some features, and returns a dataframe.
 
+    :param data: (str) raw input from Whatsapp chat export (txt)
+    :return: (Pandas Dataframe) returns dataframe with cleaned/extracted features
+    """
+    message_regex = r"\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] "
+    split_messages = re.split(message_regex, data)
 
-def number_of_active_members(df):
-    return df['sender'].unique().shape[0]
+    # turn the "flat" list into a list of tuples containing the date and the text
+    zipped_messages = list(zip(split_messages[1::2], split_messages[2::2]))
 
+    df = pd.DataFrame(zipped_messages, columns=['timestamp', 'text'])
+    df['timestamp'] = pd.to_datetime(df['timestamp'], format='%d-%m-%y %H:%M:%S', yearfirst=False)
 
-def number_of_messages(df):
-    return df.shape[0]
+    # seperate service messages (e.g. ... has been added to group ) and regular messages
+    df = df[df.text.str.match(".*:.*")]
+
+    # Seperate message texts into sender and message
+    df[['sender', 'message']] = df.text.str.extract("(.*?):(.*)", expand=True, flags=re.DOTALL)
+    df = df.sort_values('timestamp', ascending=True)
+
+    return df[['sender', 'message', 'timestamp']]
