@@ -1,6 +1,8 @@
 import unittest
 from unittest.mock import patch
+import pandas as pd
 from app import app
+from statistics import ChatStats
 
 
 class InitTest(unittest.TestCase):
@@ -9,6 +11,29 @@ class InitTest(unittest.TestCase):
         app.config['TESTING'] = True
         app.config['DEBUG'] = False
         self.app = app.test_client()
+
+
+class InitChatStat(unittest.TestCase):
+
+    def setUp(self):
+        test_dict = {
+            'sender': ['Pieter', 'Maarten'],
+            'message': ['Jaykie Dataleekie', 'Ik ben uit Xomnia getrapt'],
+            'timestamp': [pd.to_datetime('2018-03-04 12:00:00'), pd.to_datetime('2018-03-04 16:47:23')]
+        }
+        data = pd.DataFrame.from_dict(test_dict)
+        self.ChatStats = ChatStats(data)
+
+
+class TestChatStat(InitChatStat):
+
+    def test_most_active_users(self):
+        self.ChatStats.most_active_users()
+        self.assertEqual(set(self.ChatStats.active_users), {('Maarten', 1), ('Pieter', 1)})
+
+    def test_most_active_days(self):
+        self.ChatStats.most_active_days()
+        self.assertEqual(self.ChatStats.active_days, [('Sunday', 2)])
 
 
 class TestApp(InitTest):
