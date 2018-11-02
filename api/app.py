@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, request
 from utils.logger import get_logger
 from blueprints.chat_statistics.statistics import statistics, get_all_statistics
-
+from utils.etl import parse_from_file, parse_from_stream
 
 # initialize flask application
 app = Flask(__name__)
@@ -14,10 +14,10 @@ app.register_blueprint(statistics)
 
 @app.route('/', methods=["POST", "GET"])
 def home():
-    data = ""
     if request.method == "POST":
         data = request.files["whatsapp_data"].read().decode("utf-8")
-    return render_template("index.html", data=data)
+        processed_data = parse_from_stream(data)
+    return render_template("index.html")
 
 
 @app.route('/helloworld')
