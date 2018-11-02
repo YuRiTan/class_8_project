@@ -1,12 +1,5 @@
-from flask import Blueprint
 import pandas as pd
 import operator
-
-
-statistics = Blueprint('statistics', __name__)
-
-result_dict = {}
-return_dict = {'status': 0, 'result': {}}
 
 
 class ChatStats:

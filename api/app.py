@@ -1,15 +1,13 @@
 from flask import Flask, jsonify, render_template, request
 from utils.logger import get_logger
-from blueprints.chat_statistics.statistics import statistics, ChatStats
-from utils.etl import parse_from_file, parse_from_stream
+from statistics import ChatStats
+from etl import parse_from_file, parse_from_stream
 
 # initialize flask application
 app = Flask(__name__)
 
 app.config.from_envvar('secrets')
 app.config['BUNDLE_ERRORS'] = True
-
-app.register_blueprint(statistics)
 
 
 @app.route('/', methods=["POST", "GET"])
