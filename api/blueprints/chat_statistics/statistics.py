@@ -1,7 +1,7 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint
 import pandas as pd
-import re
-from utils import etl
+import operator
+
 
 statistics = Blueprint('statistics', __name__)
 
@@ -9,45 +9,38 @@ result_dict = {}
 return_dict = {'status': 0, 'result': {}}
 
 
-def get_all_statistics(input_data):
-    """ Given a WhatsApp chat export file, calculates and returns several statistics """
-    # input_data = request.data.decode()
-    df = pre_process_data(input_data)
+class ChatStats:
+    """ Object that hold all kind of statistics for a WhatsApp group chat """
 
-    result_dict['most_active_users'] = etl.most_active_users(df)
-    result_dict['most_active_days'] = etl.most_active_days(df)
-    result_dict['number_of_active_members'] = etl.number_of_active_members(df)
-    result_dict['number_of_messages'] = etl.number_of_messages(df)
-    return_dict['status'] = 1
-    return_dict['result'] = result_dict
-    return jsonify(return_dict)
+    def __init__(self, df):
+        assert isinstance(df, pd.DataFrame)
+        assert 'timestamp' in df.columns
+        assert 'sender' in df.columns
+        assert 'message' in df.columns
+        self.df = df
+        self.basic_statistics = self._get_basic_statistics()
 
+    def _get_basic_statistics(self):
+        return {
+            'active_members': self.df['sender'].unique().shape[0],
+            'total_messages': self.df.shape[0]
+        }
 
-def pre_process_data(text):
-    """ Pre processes the uploaded WhatsApp data (txt), extracts some features, and returns a dataframe.
+    def most_active_users(self):
+        if not hasattr(self, 'most_active_users'):
+            counts = self.df.sender.value_counts()
+            top_senders = counts.head(5)
+            result = top_senders.to_dict()
+            result = sorted(result.items(), key=operator.itemgetter(1), reverse=True)
+            self.most_active_users = result
 
-    :param text: (str) raw input from Whatsapp chat export (txt)
-    :return: (Pandas Dataframe) returns dataframe with cleaned/extracted features
-    """
-    # split text on the date string that occurs at the start of every message
-    message_regex = r"\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] "
-    split_messages = re.split(message_regex, text)
+    def most_active_days(self):
+        if not hasattr(self, 'most_active_days'):
+            self.df['weekday'] = self.df['timestamp'].dt.weekday_name
+            messages_per_day = self.df.groupby(['weekday']).count().sender.to_dict()
+            messages_per_day = sorted(messages_per_day.items(), key=operator.itemgetter(1), reverse=True)
+            self.most_active_days = messages_per_day
 
-    # turn the "flat" list into a list of tuples containing the date and the text
-    zipped_messages = list(zip(split_messages[1::2], split_messages[2::2]))
-    df = pd.DataFrame(zipped_messages, columns=['timestamp', 'text'])
-    df['timestamp'] = pd.to_datetime(df['timestamp'], format='%d-%m-%y %H:%M:%S', yearfirst=False)
+    def even_more_stats(self):
+        pass
 
-    # seperate service messages (e.g. ... has been added to group ) and regular messages
-    df = df[df.text.str.match(".*:.*")]
-
-    # Seperate message texts into sender and message
-    df[['sender', 'message']] = df.text.str.extract("(.*?):(.*)", expand=True, flags=re.DOTALL)
-    df = df.sort_values('timestamp', ascending=True)
-
-    return df[['sender', 'message', 'timestamp']]
-
-
-def allowed_file(filename):
-    """ Checks if filetype is suited for this application """
-    return '.' in filename and filename.rsplit('.', 1)[1] in ['txt', 'json']
