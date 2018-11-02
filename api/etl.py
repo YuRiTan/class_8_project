@@ -5,7 +5,6 @@ import re
 
 def parse_from_stream(data):
     # split text on the date string that occurs at the start of every message
-    print(data)
     return pre_process_data(data)
 
 def parse_from_file(path):
