@@ -27,19 +27,19 @@ class ChatStats:
         }
 
     def most_active_users(self):
-        if not hasattr(self, 'most_active_users'):
+        if not hasattr(self, 'active_users'):
             counts = self.df.sender.value_counts()
             top_senders = counts.head(5)
             result = top_senders.to_dict()
             result = sorted(result.items(), key=operator.itemgetter(1), reverse=True)
-            self.most_active_users = result
+            self.active_users = result
 
     def most_active_days(self):
-        if not hasattr(self, 'most_active_days'):
+        if not hasattr(self, 'active_days'):
             self.df['weekday'] = self.df['timestamp'].dt.weekday_name
             messages_per_day = self.df.groupby(['weekday']).count().sender.to_dict()
             messages_per_day = sorted(messages_per_day.items(), key=operator.itemgetter(1), reverse=True)
-            self.most_active_days = messages_per_day
+            self.active_days = messages_per_day
 
     def even_more_stats(self):
         pass
