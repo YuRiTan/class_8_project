@@ -9,10 +9,9 @@ result_dict = {}
 return_dict = {'status': 0, 'result': {}}
 
 
-@statistics.route('/whatsapi/api/v0.1/getstatistics', methods=['POST'])
-def main():
+def get_all_statistics(input_data):
     """ Given a WhatsApp chat export file, calculates and returns several statistics """
-    input_data = request.data.decode()
+    # input_data = request.data.decode()
     df = pre_process_data(input_data)
 
     result_dict['most_active_users'] = etl.most_active_users(df)

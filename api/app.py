@@ -1,6 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template, request
 from utils.logger import get_logger
-from blueprints.chat_statistics.statistics import statistics
+from blueprints.chat_statistics.statistics import statistics, get_all_statistics
 
 
 # initialize flask application
@@ -10,6 +10,14 @@ app.config.from_envvar('secrets')
 app.config['BUNDLE_ERRORS'] = True
 
 app.register_blueprint(statistics)
+
+
+@app.route('/', methods=["POST", "GET"])
+def home():
+    data = ""
+    if request.method == "POST":
+        data = request.files["whatsapp_data"].read().decode("utf-8")
+    return render_template("index.html", data=data)
 
 
 @app.route('/helloworld')
