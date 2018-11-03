@@ -39,8 +39,6 @@ class TestChatStat(InitChatStat):
         self.assertEqual(self.ChatStats.active_days, [('Sunday', 2)])
 
 
-
-
 class TestApp(InitTest):
 
     def test_ping_route(self):
@@ -51,21 +49,18 @@ class TestApp(InitTest):
         response = self.app.get('/')
         self.assertIn(b'Upload your file', response.data)
 
-    @patch('statistics.ChatStats')
+    @patch('app.ChatStats')
     def test_home_post_without_side_effects(self, ChatStats):
-        ChatStats.most_active_users.return_value = [('Yuri', a) for a in range(5)]
-        ChatStats.most_active_days.return_value = [('Bad day', a) for a in range(7)]
-        ChatStats.basic_statistics.return_value = {'foo': 12, 'bar': 14}
+        ChatStats.return_value.active_users = [('Yuri', a) for a in range(5)]
+        ChatStats.return_value.active_days = [('Bad day', a) for a in range(7)]
+        ChatStats.return_value.basic_statistics = {'foo': 12, 'bar': 14}
 
-        f = open('../data/xomnia_chat.txt', 'rb')
+        with open('../data/xomnia_chat.txt', 'rb') as f:
+            response = self.app.post('/', content_type='multipart/form-data', data=dict(whatsapp_data=f))
 
-        data = dict(
-            whatsapp_data=f
-        )
-        response = self.app.post('/', content_type='multipart/form-data', data=data)
-        f.close()
-        print(response.data)
-        self.assertTrue(True)
+        self.assertIn(b'Yuri', response.data)
+        self.assertIn(b'Bad day', response.data)
+        self.assertIn(b'foo', response.data)
 
 
 
