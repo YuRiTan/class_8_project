@@ -19,7 +19,8 @@ class InitChatStat(unittest.TestCase):
         test_dict = {
             'sender': ['Pieter', 'Maarten'],
             'message': ['Jaykie Dataleekie', 'Ik ben uit Xomnia getrapt'],
-            'timestamp': [pd.to_datetime('2018-03-04 12:00:00'), pd.to_datetime('2018-03-04 16:47:23')]
+            'timestamp': [pd.to_datetime('2018-03-04 12:00:00'),
+                          pd.to_datetime('2018-03-04 16:47:23')]
         }
         data = pd.DataFrame.from_dict(test_dict)
         self.ChatStats = ChatStats(data)
@@ -28,11 +29,13 @@ class InitChatStat(unittest.TestCase):
 class TestChatStat(InitChatStat):
     # TODO test edge-cases, perhaps tests that include failures we should cover?
     def test_basic_statistics(self):
-        self.assertEqual(self.ChatStats.basic_statistics, {'active_members': 2, 'total_messages': 2})
+        self.assertEqual(self.ChatStats.basic_statistics, {'active_members': 2,
+                                                           'total_messages': 2})
 
     def test_most_active_users(self):
         self.ChatStats.most_active_users()
-        self.assertEqual(set(self.ChatStats.active_users), {('Maarten', 1), ('Pieter', 1)})
+        self.assertEqual(set(self.ChatStats.active_users),
+                         {('Maarten', 1), ('Pieter', 1)})
 
     def test_most_active_days(self):
         self.ChatStats.most_active_days()
