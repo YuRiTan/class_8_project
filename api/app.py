@@ -6,7 +6,7 @@ from etl import parse_from_file, parse_from_stream
 # initialize flask application
 app = Flask(__name__)
 
-app.config.from_envvar('secrets')
+#app.config.from_envvar('secrets')
 app.config['BUNDLE_ERRORS'] = True
 
 
@@ -31,9 +31,9 @@ def ping():
 
 
 if __name__ == '__main__':
-    logger = get_logger(app.config.get('LOGLEVEL'))
+    logger = get_logger(loglevel='DEBUG')
 
     # run web server
-    app.run(host=app.config.get('HOST'),
-            debug=app.config.get('DEBUG'),
-            port=app.config.get('PORT'))
+    app.run(host='0.0.0.0',
+            debug=True,
+            port=5555)
