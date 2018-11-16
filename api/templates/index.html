@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <h1>Upload your file</h1>
+  <p>Upload your file here:</p>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="whatsapp_data" id="whatsapp_data">
+    <input type="submit" value="Send that SHIAAT">
+  </form>
+
+  <p>Basic stats: </p>{{ basic_stats }}
+  <p>Users: </p>{{ users }}
+  <p>Days: </p>{{ days }}
+{% endblock %}
