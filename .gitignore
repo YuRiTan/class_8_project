@@ -125,3 +125,7 @@ data/*
 *.txt
 *.csv
 *.json
+
+# txt file
+xomnia_chat.txt
+
