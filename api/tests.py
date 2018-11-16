@@ -8,9 +8,9 @@ from statistics import ChatStats
 class InitTest(unittest.TestCase):
 
     def setUp(self):
-        app.config['TESTING'] = True
-        app.config['DEBUG'] = False
         self.app = app.test_client()
+        self.app.config['TESTING'] = True
+        self.app.config['DEBUG'] = False
 
 
 class InitChatStat(unittest.TestCase):
