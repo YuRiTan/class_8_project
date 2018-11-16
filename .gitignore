@@ -126,7 +126,11 @@ data/*
 *.csv
 *.json
 
-# txt file
+# removed files
 xomnia_chat.txt
 whatsapp-cor.gexf
 whatsapp-tfidf.gexf
+Whatsapp-network.ipynb
+notebooks/whatsapp-cor.gexf
+notebooks/whatsapp-tfidf.gexf
+notebooks/Whatsapp-network.ipynb
