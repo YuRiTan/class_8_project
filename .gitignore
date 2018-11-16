@@ -120,8 +120,9 @@ dmypy.json
 .idea
 
 # Data
-data
 data/*
+data/**/*
+!data/.gitkeep
 *.txt
 *.csv
 *.json
@@ -134,3 +135,4 @@ Whatsapp-network.ipynb
 notebooks/whatsapp-cor.gexf
 notebooks/whatsapp-tfidf.gexf
 notebooks/Whatsapp-network.ipynb
+*.DS_Store
