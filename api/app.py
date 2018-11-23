@@ -12,7 +12,13 @@ app.config['BUNDLE_ERRORS'] = True
 
 @app.route('/', methods=["POST", "GET"])
 def home():
+    
+    return render_template("index.html")
+
+@app.route('/upload', methods=["POST", "GET"])
+def upload():
     basic_stats, users, days = "", "", ""
+    current_upload = "(current)"
     if request.method == "POST":
         data = request.files["whatsapp_data"].read().decode("utf-8")
         processed_data = parse_from_stream(data)
@@ -22,7 +28,7 @@ def home():
         basic_stats = chat_stats.basic_statistics
         days = chat_stats.active_days
         users = chat_stats.active_users
-    return render_template("index.html", basic_stats=basic_stats, days=days, users=users)
+    return render_template("upload.html", basic_stats=basic_stats, days=days, users=users)
 
 
 @app.route('/helloworld')
