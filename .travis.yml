@@ -18,7 +18,7 @@ before_install:
 install:
 - gcloud config set project capstone-class8
 # - gcloud -q components update gae-python
-- pip install -r requirements.txt -t lib/
+# - pip install -r requirements.txt -t lib/
 script:
 - py.test -v --cov=api api/tests.py
 - gcloud config set project `capstone-class8`
