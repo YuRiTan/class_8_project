@@ -1,3 +1,7 @@
+branches:
+  only:
+  - master
+  - dev
 language: python
 python:
 - '3.6'
@@ -12,10 +16,6 @@ install:
 - tar -xf credentials.tar
 - gcloud auth activate-service-account --key-file client-secret.json
 - gcloud config set project capstone-class8
-branches:
-  only:
-  - master
-  - dev
-  script:
-  - gcloud compute scp . travis_service@instance-1:~/ --zone us-east1-b --recurse
-  - gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "sudo deploy.sh" 
+script:
+- gcloud compute scp . travis_service@instance-1:~/ --zone us-east1-b --recurse
+- gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "sudo deploy.sh" 
