@@ -48,7 +48,7 @@ class TestApp(InitTest):
         self.assertIn(b'Hello World', response.data)
 
     def test_home_get(self):
-        response = self.app.get('/')
+        response = self.app.get('/upload')
         self.assertIn(b'Upload your file', response.data)
 
     @unittest.skip('TODO: replace data with a mocked byte-likes object')
