@@ -12,7 +12,7 @@ before_install:
 #  "${GAE_PYTHONPATH}"); fi
 - if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
   fi
-- tar -xf credentials.tar.gz
+- tar -xf credentials.tar
 - mkdir -p lib
 - gcloud auth activate-service-account --key-file client-secret.json
 install:
