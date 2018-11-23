@@ -8,7 +8,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_d19b78e5e2f3_key -iv $encrypted_d19b78e5e2f3_iv
   -in credentials.tar.enc -out credentials.tar -d
 - pip install pytest-cov
-#- if [ ! -d "${GAE_PYTHONPATH}" ]; then python scripts/fetch_gae_sdk.py $(dirname
+# - if [ ! -d "${GAE_PYTHONPATH}" ]; then python scripts/fetch_gae_sdk.py $(dirname
 #  "${GAE_PYTHONPATH}"); fi
 - if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
   fi
@@ -17,7 +17,7 @@ before_install:
 - gcloud auth activate-service-account --key-file client-secret.json
 install:
 - gcloud config set project capstone-class8
-- gcloud -q components update gae-python
+# - gcloud -q components update gae-python
 - pip install -r requirements.txt -t lib/
 script:
 - py.test -v --cov=api api/tests.py
