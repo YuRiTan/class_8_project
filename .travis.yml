@@ -23,7 +23,7 @@ script:
 - py.test -v --cov=api api/tests.py
 - gcloud config set project capstone-class8
 - gcloud compute scp . travis_service@instance-1:~/ --zone us-east1-b --recurse
-- gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command docker build -t capstone . && docker run -p 5555:5555 -d capstone
+- gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "docker build -t capstone . && docker run -p 5555:5555 -d capstone"
   #--command sudo apt install \
   # apt-transport-https ca-certificates curl software-properties-common gnupg2 curl \
   # -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - sudo add-apt-repository \
