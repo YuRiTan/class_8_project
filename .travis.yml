@@ -8,3 +8,4 @@ before_install:
 
 script:
   - py.test -v --cov=api api/tests.py
+  - gcloud config set project `capstone-class8`
