@@ -10,7 +10,7 @@ env:
 before_install:
 - pip install -r requirements.txt
 - py.test -v --cov=api api/tests.py
-master:
+dev:
   install:
   - if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; fi
   - openssl aes-256-cbc -K $encrypted_d19b78e5e2f3_key -iv $encrypted_d19b78e5e2f3_iv -in credentials.tar.enc -out credentials.tar -d
