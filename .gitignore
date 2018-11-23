@@ -139,5 +139,7 @@ notebooks/Whatsapp-network.ipynb
 
 # gcp credentials
 credentials.tar.gz
+credentials.tar
 api_key.py
 deploy_key
+

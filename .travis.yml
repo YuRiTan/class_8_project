@@ -6,13 +6,13 @@ env:
   PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH} CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
 - openssl aes-256-cbc -K $encrypted_d19b78e5e2f3_key -iv $encrypted_d19b78e5e2f3_iv
-  -in credentials.tar.gz.enc -out credentials.tar.gz -d
+  -in credentials.tar.enc -out credentials.tar -d
 - pip install pytest-cov
 - if [ ! -d "${GAE_PYTHONPATH}" ]; then python scripts/fetch_gae_sdk.py $(dirname
   "${GAE_PYTHONPATH}"); fi
 - if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
   fi
-- tar -xzf credentials.tar.gz
+- tar -xf credentials.tar.gz
 - mkdir -p lib
 - gcloud auth activate-service-account --key-file client-secret.json
 install:
