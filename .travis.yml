@@ -9,13 +9,14 @@ env:
 - GAE_PYTHONPATH=${HOME}/ PATH=$PATH:${HOME}/google-cloud-sdk/bin CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
 - pip install -r requirements.txt
-- py.test -v --cov=api api/tests.py
-install:
-- if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; fi
-- openssl aes-256-cbc -K $encrypted_d19b78e5e2f3_key -iv $encrypted_d19b78e5e2f3_iv -in credentials.tar.enc -out credentials.tar -d
-- tar -xf credentials.tar
-- gcloud auth activate-service-account --key-file client-secret.json
-- gcloud config set project capstone-class8
-script:
-- gcloud compute scp . travis_service@instance-1:~/ --zone us-east1-b --recurse
-- gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "sudo deploy.sh" 
+- py.test -v --cov=api api/tests.pyi
+master:
+  install:
+  - if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; fi
+  - openssl aes-256-cbc -K $encrypted_d19b78e5e2f3_key -iv $encrypted_d19b78e5e2f3_iv -in credentials.tar.enc -out credentials.tar -d
+  - tar -xf credentials.tar
+  - gcloud auth activate-service-account --key-file client-secret.json
+  - gcloud config set project capstone-class8
+  script:
+  - gcloud compute scp . travis_service@instance-1:~/ --zone us-east1-b --recurse
+  - gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "sudo ./deploy.sh" 
