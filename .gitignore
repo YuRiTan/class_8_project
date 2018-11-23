@@ -136,3 +136,7 @@ notebooks/whatsapp-cor.gexf
 notebooks/whatsapp-tfidf.gexf
 notebooks/Whatsapp-network.ipynb
 *.DS_Store
+
+# gcp credentials
+credentials.tar.gz
+api_key.pydeploy_key
