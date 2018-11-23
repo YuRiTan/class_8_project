@@ -14,4 +14,4 @@ install:
 - gcloud config set project capstone-class8
 script:
 - gcloud compute scp . travis_service@instance-1:~/ --zone us-east1-b --recurse
-- gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "sudo docker build -t capstone . && sudo docker stop $(sudo docker ps | grep capstone | awk '{print $NF}') && sudo docker run -p 5555:5555 -d capstone"
+- gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "sudo docker build -t capstone . && sudo docker stop $(sudo docker ps | grep capstone | awk '{print $NF}') && sudo docker run -p 5555:5555 --name capstone -d capstone"
