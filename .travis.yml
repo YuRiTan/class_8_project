@@ -2,14 +2,14 @@ language: python
 python:
 - '3.6'
 env:
-- GAE_PYTHONPATH=${HOME}/.cache/google_appengine PATH=$PATH:${HOME}/google-cloud-sdk/bin
+- GAE_PYTHONPATH=${HOME}/ PATH=$PATH:${HOME}/google-cloud-sdk/bin
   PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH} CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
 - openssl aes-256-cbc -K $encrypted_d19b78e5e2f3_key -iv $encrypted_d19b78e5e2f3_iv
   -in credentials.tar.enc -out credentials.tar -d
 - pip install pytest-cov
-- if [ ! -d "${GAE_PYTHONPATH}" ]; then python scripts/fetch_gae_sdk.py $(dirname
-  "${GAE_PYTHONPATH}"); fi
+#- if [ ! -d "${GAE_PYTHONPATH}" ]; then python scripts/fetch_gae_sdk.py $(dirname
+#  "${GAE_PYTHONPATH}"); fi
 - if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
   fi
 - tar -xf credentials.tar.gz
