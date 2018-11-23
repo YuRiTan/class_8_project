@@ -37,8 +37,8 @@ script:
   - # [START deploy]
   # Deploy the app
   # - gcloud compute config-ssh --project capstone-class8
-  - gcloud compute scp . thomas@instance-1:~/ --zone us-east1-b --recurse
-  - gcloud compute ssh thomas@instance-1 --zone us-east1-b << EOF
+  - gcloud compute scp . travis_service@instance-1:~/ --zone us-east1-b --recurse
+  - gcloud compute ssh travis_service@instance-1 --zone us-east1-b << EOF
       sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg2
       curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
