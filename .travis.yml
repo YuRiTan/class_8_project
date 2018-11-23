@@ -15,6 +15,7 @@ install:
 branches:
   only:
   - master
+  - dev
   script:
   - gcloud compute scp . travis_service@instance-1:~/ --zone us-east1-b --recurse
   - gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "sudo deploy.sh" 
