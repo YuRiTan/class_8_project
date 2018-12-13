@@ -34,6 +34,7 @@ class ChatStats:
             messages_per_day = sorted(messages_per_day.items(), key=operator.itemgetter(1), reverse=True)
             self.active_days = messages_per_day
 
+    # TODO make more nice features
     def even_more_stats(self):
         pass
 
