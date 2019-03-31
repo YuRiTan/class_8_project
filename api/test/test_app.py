@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from app import app
+from src.app import app
 import io
 
 
@@ -15,14 +15,14 @@ class InitTest(unittest.TestCase):
 class TestApp(InitTest):
 
     def test_ping_route(self):
-        response = self.app.get('/ping')
-        self.assertIn(b'I am alive!', response.data)
+        response = self.app.get('/')
+        self.assertIn(b'Home - Whatstats', response.data)
 
     def test_home_get(self):
         response = self.app.get('/upload')
         self.assertIn(b'Upload your file', response.data)
 
-    @patch('app.ChatStats')
+    @patch('src.app.ChatStats')
     def test_home_post_without_side_effects(self, ChatStats):
         ChatStats.return_value.active_users = [('Henk', a) for a in range(5)]
         ChatStats.return_value.active_days = [('Bad day', a) for a in range(7)]
