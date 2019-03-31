@@ -11,5 +11,5 @@ if [ `docker ps -aq --filter name=$NAME | wc -l` -gt 0 ]; then
     echo 'Stopped and removed docker container($(CONTAINERID), with name: $(NAME))'
 fi
 echo 'Starting new docker container with latest capstone build'
-docker run --rm -p 5555:5555 --name $NAME -d $NAME:latest
+docker run -p 5555:5555 --name $NAME -d $NAME:latest
 echo 'Done! You should be ready to go by now'
