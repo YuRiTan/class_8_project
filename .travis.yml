@@ -17,5 +17,7 @@ install:
 - gcloud auth activate-service-account --key-file client-secret.json
 - gcloud config set project capstone-class8
 script:
-- gcloud compute scp . travis_service@instance-1:~/ --zone us-east1-b --recurse
+- echo $(pwd)
+- echo $(ls)
+- gcloud compute scp ./* travis_service@instance-1:~/ --zone us-east1-b --recurse
 - gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "sudo bash /home/travis_service/deploy.sh"
