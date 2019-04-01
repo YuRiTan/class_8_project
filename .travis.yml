@@ -9,6 +9,7 @@ env:
 - GAE_PYTHONPATH=${HOME}/ PATH=$PATH:${HOME}/google-cloud-sdk/bin CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
 - pip install -r requirements.txt
+- echo $TRAVIS_BUILD_DIR
 - py.test -v --cov=api api/test
 install:
 - if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash; fi
@@ -17,7 +18,5 @@ install:
 - gcloud auth activate-service-account --key-file client-secret.json
 - gcloud config set project capstone-class8
 script:
-- echo $(pwd)
-- echo $(ls)
 - gcloud compute scp ./* travis_service@instance-1:~/ --zone us-east1-b --recurse
 - gcloud compute ssh travis_service@instance-1 --zone us-east1-b --command "sudo bash /home/travis_service/deploy.sh"

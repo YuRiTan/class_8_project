@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
-from src.utils.logger import get_logger
-from src.statistics import ChatStats
-from src.etl import WhatsAppDataParser
+from utils.logger import get_logger
+from statistics import ChatStats
+from etl import WhatsAppDataParser
 
 # initialize flask application
 app = Flask(__name__)

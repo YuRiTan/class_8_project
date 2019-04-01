@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from src.app import app
+from api.src.app import app
 import io
 
 
@@ -22,7 +22,7 @@ class TestApp(InitTest):
         response = self.app.get('/upload')
         self.assertIn(b'Upload your file', response.data)
 
-    @patch('src.app.ChatStats')
+    @patch('api.src.app.ChatStats')
     def test_home_post_without_side_effects(self, ChatStats):
         ChatStats.return_value.active_users = [('Henk', a) for a in range(5)]
         ChatStats.return_value.active_days = [('Bad day', a) for a in range(7)]

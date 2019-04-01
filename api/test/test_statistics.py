@@ -1,6 +1,6 @@
 import unittest
 import pandas as pd
-from src.statistics import ChatStats
+from api.src.statistics import ChatStats
 
 
 class InitChatStat(unittest.TestCase):
