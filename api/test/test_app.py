@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from api.src.app import app
+from app import app
 import io
 
 
