@@ -30,4 +30,4 @@ def get_logger(loglevel, directory='logs'):
     filehandler.setLevel(level)
     filehandler.setFormatter(formatter)
     logger.addHandler(filehandler)
-    return (logger)
+    return logger

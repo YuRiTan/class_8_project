@@ -15,8 +15,8 @@ class InitTest(unittest.TestCase):
 class TestApp(InitTest):
 
     def test_ping_route(self):
-        response = self.app.get('/ping')
-        self.assertIn(b'I am alive!', response.data)
+        response = self.app.get('/')
+        self.assertIn(b'Home - Whatstats', response.data)
 
     def test_home_get(self):
         response = self.app.get('/upload')
