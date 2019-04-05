@@ -43,14 +43,16 @@ class TestWhatsAppDataParser(InitChatStat):
         self.assertSeriesEqual(output_df.dtypes, correct_df.dtypes, check_names=True)
         self.assertFrameEqual(output_df, correct_df)
 
-    def test_guess_regex_format(self):
-        regex_format_1 = self.parser.guess_regex_format(self.input_str_ios)
-        correct_1 = r"\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] "
-        self.assertEqual(regex_format_1, correct_1)
+    def test_guess_regex_format__ios(self):
+        self.parser.guess_regex_format(self.input_str_ios)
+        correct = r"\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] "
+        self.assertEqual(self.parser.regex_format, correct)
 
-        regex_format_2 = self.parser.guess_regex_format(self.input_str_android)
-        correct_2 = r"(\d{2}-\d{2}-\d{4} \d{2}:\d{2} )"
-        self.assertEqual(regex_format_2, correct_2)
+    def test_guess_regex_format_android(self):
+        self.parser.guess_regex_format(self.input_str_android)
+        correct = r"(\d{2}/\d{2}/\d{4}, \d{2}:\d{2})"
+        self.assertEqual(self.parser.regex_format, correct)
 
+    def test_guess_regex_format_wrong(self):
         false_input = "{24-11-2017 14:38:41} Mi: Welkom!"
         self.assertRaises(ValueError, self.parser.guess_regex_format, false_input)
