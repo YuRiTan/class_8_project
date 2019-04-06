@@ -34,4 +34,4 @@ class TestChatStat(InitChatStat):
 
     def test_repliers(self):
         self.ChatStats.replier_count()
-        self.assertEqual(self.ChatStats.replier, {('Peter', 'Marten'): 1})
+        self.assertEqual(self.ChatStats.replier, {'Peter-Marten': 1})
