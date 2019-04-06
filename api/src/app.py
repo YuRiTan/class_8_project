@@ -18,6 +18,8 @@ def home():
 def upload():
     basic_stats, users, days = "", "", ""
     if request.method == "POST":
+        if "whatsapp_data" not in request.files:
+            return render_template("upload.html")
         data = request.files["whatsapp_data"].read().decode("utf-8")
         processed_data = WhatsAppDataParser(source='stream').transform(data)
         chat_stats = ChatStats(processed_data)
