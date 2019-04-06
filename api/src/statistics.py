@@ -26,7 +26,6 @@ class ChatStats:
             result = top_senders.to_dict()
             # result = sorted(result.items(), key=operator.itemgetter(1),
             #                 reverse=True)
-            # self.active_users = result
             self.active_users = {k: v for k, v in result.items()}
 
     def most_active_days(self):
