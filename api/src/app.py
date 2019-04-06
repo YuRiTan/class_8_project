@@ -23,10 +23,13 @@ def upload():
         chat_stats = ChatStats(processed_data)
         chat_stats.most_active_users()
         chat_stats.most_active_days()
+        chat_stats.replier_count()
         basic_stats = chat_stats.basic_statistics
         days = chat_stats.active_days
         users = chat_stats.active_users
-    return render_template("upload.html", basic_stats=basic_stats, days=days, users=users)
+        repliers = chat_stats.replier
+    return render_template("upload.html", basic_stats=basic_stats, days=days,
+                           users=users, repliers=repliers)
 
 
 if __name__ == '__main__':
