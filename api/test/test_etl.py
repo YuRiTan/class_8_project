@@ -18,12 +18,11 @@ class InitChatStat(unittest.TestCase):
                 "[24-11-17 14:38:41] Mi: Welkom!"
                 )
         self.input_str_android = (
-                "22-11-2013 19:08 Master: Berichten die naar deze groep "
-                "worden verzonden, zijn nu beveiligd met end-to-end encryptie."
-                "22-11-2013 19:08 Henk heeft deze groep aangemaakt"
-                "24-11-2017 14:36 Mi heeft Yu toegevoegd"
-                "24-11-2017 14:37 Yu: Thanks Mi!"
-                "24-11-2017 14:38 Mi: Welkom!"
+                "22/11/2013, 19:08 - Master: Berichten die naar deze groep "
+                "07/01/2018, 11:28 - Henk heeft deze groep aangemaakt"
+                "23/04/2018, 23:12 - Mi heeft Yu toegevoegd"
+                "07/01/2019, 09:01 - Yu: Thanks Mi!"
+                "05/04/2019, 15:11 - Robin: OMG FIRST SUCCESSFUL PR"
                 )
         self.parser = WhatsAppDataParser(source='stream')
 
@@ -43,14 +42,16 @@ class TestWhatsAppDataParser(InitChatStat):
         self.assertSeriesEqual(output_df.dtypes, correct_df.dtypes, check_names=True)
         self.assertFrameEqual(output_df, correct_df)
 
-    def test_guess_regex_format(self):
-        regex_format_1 = self.parser.guess_regex_format(self.input_str_ios)
-        correct_1 = r"\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] "
-        self.assertEqual(regex_format_1, correct_1)
+    def test_guess_regex_format__ios(self):
+        self.parser.guess_regex_format(self.input_str_ios)
+        correct = r"\[(\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\] "
+        self.assertEqual(self.parser.regex_format, correct)
 
-        regex_format_2 = self.parser.guess_regex_format(self.input_str_android)
-        correct_2 = r"(\d{2}-\d{2}-\d{4} \d{2}:\d{2} )"
-        self.assertEqual(regex_format_2, correct_2)
+    def test_guess_regex_format_android(self):
+        self.parser.guess_regex_format(self.input_str_android)
+        correct = r"(\d{2}/\d{2}/\d{4}, \d{2}:\d{2})"
+        self.assertEqual(self.parser.regex_format, correct)
 
+    def test_guess_regex_format_wrong(self):
         false_input = "{24-11-2017 14:38:41} Mi: Welkom!"
         self.assertRaises(ValueError, self.parser.guess_regex_format, false_input)
