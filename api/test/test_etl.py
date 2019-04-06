@@ -18,12 +18,11 @@ class InitChatStat(unittest.TestCase):
                 "[24-11-17 14:38:41] Mi: Welkom!"
                 )
         self.input_str_android = (
-                "22-11-2013 19:08 Master: Berichten die naar deze groep "
-                "worden verzonden, zijn nu beveiligd met end-to-end encryptie."
-                "22-11-2013 19:08 Henk heeft deze groep aangemaakt"
-                "24-11-2017 14:36 Mi heeft Yu toegevoegd"
-                "24-11-2017 14:37 Yu: Thanks Mi!"
-                "24-11-2017 14:38 Mi: Welkom!"
+                "22/11/2013, 19:08 - Master: Berichten die naar deze groep "
+                "07/01/2018, 11:28 - Henk heeft deze groep aangemaakt"
+                "23/04/2018, 23:12 - Mi heeft Yu toegevoegd"
+                "07/01/2019, 09:01 - Yu: Thanks Mi!"
+                "05/04/2019, 15:11 - Robin: OMG FIRST SUCCESSFUL PR"
                 )
         self.parser = WhatsAppDataParser(source='stream')
 
