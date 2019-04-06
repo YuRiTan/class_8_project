@@ -16,17 +16,20 @@ def home():
 
 @app.route('/upload', methods=["POST", "GET"])
 def upload():
-    basic_stats, users, days = "", "", ""
+    basic_stats, users, days, repliers = "", "", "", ""
     if request.method == "POST":
         data = request.files["whatsapp_data"].read().decode("utf-8")
         processed_data = WhatsAppDataParser(source='stream').transform(data)
         chat_stats = ChatStats(processed_data)
         chat_stats.most_active_users()
         chat_stats.most_active_days()
+        chat_stats.replier_count()
         basic_stats = chat_stats.basic_statistics
         days = chat_stats.active_days
         users = chat_stats.active_users
-    return render_template("upload.html", basic_stats=basic_stats, days=days, users=users)
+        repliers = chat_stats.replier
+    return render_template("upload.html", basic_stats=basic_stats, days=days,
+                           users=users, repliers=repliers)
 
 
 if __name__ == '__main__':

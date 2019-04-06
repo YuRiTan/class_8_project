@@ -8,7 +8,8 @@ class InitChatStat(unittest.TestCase):
     def setUp(self):
         test_dict = {
             'sender': ['Peter', 'Marten'],
-            'message': ['Sjakie', 'Hoi ik ben Sjaak, maar je mag me Sjakie noemen.'],
+            'message': ['Sjakie',
+                        'Hoi ik ben Sjaak, maar je mag me Sjakie noemen.'],
             'timestamp': [pd.to_datetime('2018-03-04 12:00:00'),
                           pd.to_datetime('2018-03-04 16:47:23')]
         }
@@ -30,3 +31,7 @@ class TestChatStat(InitChatStat):
     def test_most_active_days(self):
         self.ChatStats.most_active_days()
         self.assertEqual(self.ChatStats.active_days, [('Sunday', 2)])
+
+    def test_repliers(self):
+        self.ChatStats.replier_count()
+        self.assertEqual(self.ChatStats.replier, {('Peter', 'Marten'): 1})
