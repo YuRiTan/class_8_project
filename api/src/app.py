@@ -16,7 +16,7 @@ def home():
 
 @app.route('/upload', methods=["POST", "GET"])
 def upload():
-    basic_stats, users, days = "", "", ""
+    basic_stats, users, days, repliers = "", "", "", ""
     if request.method == "POST":
         data = request.files["whatsapp_data"].read().decode("utf-8")
         processed_data = WhatsAppDataParser(source='stream').transform(data)
