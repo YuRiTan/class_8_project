@@ -8,6 +8,10 @@
     <input type="file" name="whatsapp_data" id="whatsapp_data" />
     <input type="submit" value="Submit" />
   </form>
+  {% if try_upload %}
+<p> Please add a file before submitting.
+  No statistics without data!</p>
+  {% endif %}
   <h1 class="mt-3">Results</h2>
   {% if basic_stats %}
     <h2 class="mt-3">Basic stats</h2>
