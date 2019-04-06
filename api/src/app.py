@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request
+import json
+
+from flask import Flask, render_template, request, jsonify
 from utils.logger import get_logger
 from statistics import ChatStats
 from etl import WhatsAppDataParser
@@ -31,7 +33,7 @@ def upload():
         users = chat_stats.active_users
         repliers = chat_stats.replier
     return render_template("upload.html", basic_stats=basic_stats, days=days,
-                           users=users, repliers=repliers)
+                           users=json.dumps(users), repliers=repliers)
 
 
 if __name__ == '__main__':

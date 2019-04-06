@@ -24,9 +24,10 @@ class ChatStats:
             counts = self.df.sender.value_counts()
             top_senders = counts.head(5)
             result = top_senders.to_dict()
-            result = sorted(result.items(), key=operator.itemgetter(1),
-                            reverse=True)
-            self.active_users = result
+            # result = sorted(result.items(), key=operator.itemgetter(1),
+            #                 reverse=True)
+            # self.active_users = result
+            self.active_users = {k: v for k, v in result.items()}
 
     def most_active_days(self):
         if not hasattr(self, 'active_days'):
