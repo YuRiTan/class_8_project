@@ -27,7 +27,7 @@ class TestApp(InitTest):
         ChatStats.return_value.active_users = {'Henk': a for a in range(5)}
         ChatStats.return_value.active_days = {'Bad day': a for a in range(7)}
         ChatStats.return_value.basic_statistics = {'foo': 12, 'bar': 14}
-        ChatStats.return_value.replier = {'Peter-Marten': 1}
+        ChatStats.return_value.replier = {'Henk-Ingrid': 1}
 
         iob_str = io.BytesIO(
             b'[22-11-13 19:08:14] Master: \xe2\x80\x8eBerichten die naar deze groep worden verzonden, zijn nu beveiligd'
@@ -42,6 +42,8 @@ class TestApp(InitTest):
         self.assertIn(b'Henk', response.data)
         self.assertIn(b'Bad day', response.data)
         self.assertIn(b'foo', response.data)
+        self.assertIn(b'Henk-Ingrid', response.data)
+
 
 
 
