@@ -31,14 +31,9 @@ def upload():
         basic_stats = chat_stats.basic_statistics
         total_messages = basic_stats.get('total_messages', None)
         active_members = basic_stats.get('active_members', None)
-        try:
-            days = json.dumps(chat_stats.active_days)
-            users = json.dumps(chat_stats.active_users)
-            repliers = json.dumps(chat_stats.replier)
-        except TypeError:
-            days = chat_stats.active_days
-            users = chat_stats.active_users
-            repliers = chat_stats.replier
+        days = chat_stats.active_days
+        users = chat_stats.active_users
+        repliers = chat_stats.replier
 
     return render_template("upload.html",
                            total_messages=total_messages,

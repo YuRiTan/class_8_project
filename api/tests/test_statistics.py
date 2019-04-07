@@ -1,4 +1,7 @@
+import json
 import unittest
+from collections import OrderedDict
+
 import pandas as pd
 from statistics import ChatStats
 
@@ -25,12 +28,15 @@ class TestChatStat(InitChatStat):
 
     def test_most_active_users(self):
         self.ChatStats.most_active_users()
-        self.assertEqual(self.ChatStats.active_users, {'Marten': 1, 'Peter': 1})
+        exp = json.dumps(OrderedDict({'Marten': 1, 'Peter': 1}))
+        self.assertEqual(self.ChatStats.active_users, exp)
 
     def test_most_active_days(self):
         self.ChatStats.most_active_days()
-        self.assertEqual(self.ChatStats.active_days, {'Sunday': 2})
+        exp = json.dumps({'Sunday': 2})
+        self.assertEqual(self.ChatStats.active_days, exp)
 
     def test_repliers(self):
         self.ChatStats.replier_count()
-        self.assertEqual(self.ChatStats.replier, {'Peter-Marten': 1})
+        exp = json.dumps({'Peter-Marten': 1})
+        self.assertEqual(self.ChatStats.replier, exp)
