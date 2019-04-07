@@ -12,17 +12,37 @@
 <p> Please add a file before submitting.
   No statistics without data!</p>
   {% endif %}
-  <h1 class="mt-3">Results</h2>
-  {% if basic_stats %}
+  <h1 class="mt-3">Results</h1>
+  {% if active_members %}
     <h2 class="mt-3">Basic stats</h2>
-    <p>{{ basic_stats }}</p>
+    <p>
+      <h4>Active members: <b>{{ active_members }}</b></h4>
+      <h4>Total messages: <b>{{ total_messages }}</b></h4>
+    </p>
     <h2 class="mt-3">Users</h2>
-    <p>{{ users }}</p>
+    <p><div id="user_chart"></div></p>
     <h2 class="mt-3">Days</h2>
-    <p>{{ days }}</p>
+    <p><div id="days_chart"></div></p>
     <h2 class="mt-3">Repliers</h2>
-    <p>{{ repliers }}</p>
+    <p><div id="replier_chart"></div></p>
   {% else %}
     <p>After you upload a file, your results will be shown here.</p>
   {% endif %}
+    <!-- generating plots -->
+    <script>
+        var chart_user = c3.generate({
+            bindto: "#user_chart",
+            data: {json: JSON.parse({{ users|tojson|safe }}), type: 'bar'},
+            bar: {width: {ratio: 0.5}}
+        });
+        var chart_days = c3.generate({
+              bindto: "#days_chart",
+              data: {json: JSON.parse({{ days|tojson|safe }}), type: 'bar'},
+              bar: {width: {ratio: 0.5}}
+        });
+        var chart_replier = c3.generate({
+              bindto: "#replier_chart",
+              data: {json: JSON.parse({{ repliers|tojson|safe }}), type: 'pie'}
+        });
+    </script>
 {% endblock %}
