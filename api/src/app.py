@@ -17,7 +17,8 @@ def home():
 
 @app.route('/upload', methods=["POST", "GET"])
 def upload():
-    basic_stats, users, days, repliers, try_upload = "", "", "", "", False
+    basic_stats, total_messages, active_members = {}, "", ""
+    users, days, repliers, try_upload = "", "", "", False
     if request.method == "POST":
         if "whatsapp_data" not in request.files:
             return render_template("upload.html", try_upload=True)
@@ -28,15 +29,23 @@ def upload():
         chat_stats.most_active_days()
         chat_stats.replier_count()
         basic_stats = chat_stats.basic_statistics
-        days = chat_stats.active_days
-        users = chat_stats.active_users
-        repliers = chat_stats.replier
+        total_messages = basic_stats.get('total_messages', None)
+        active_members = basic_stats.get('active_members', None)
+        try:
+            days = json.dumps(chat_stats.active_days)
+            users = json.dumps(chat_stats.active_users)
+            repliers = json.dumps(chat_stats.replier)
+        except TypeError:
+            days = chat_stats.active_days
+            users = chat_stats.active_users
+            repliers = chat_stats.replier
+
     return render_template("upload.html",
-                           total_messages=basic_stats['total_messages'],
-                           active_members=basic_stats['active_members'],
-                           days=json.dumps(days),
-                           users=json.dumps(users),
-                           repliers=json.dumps(repliers))
+                           total_messages=total_messages,
+                           active_members=active_members,
+                           days=days,
+                           users=users,
+                           repliers=repliers)
 
 
 if __name__ == '__main__':

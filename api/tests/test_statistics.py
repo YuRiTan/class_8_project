@@ -25,12 +25,11 @@ class TestChatStat(InitChatStat):
 
     def test_most_active_users(self):
         self.ChatStats.most_active_users()
-        self.assertEqual(set(self.ChatStats.active_users),
-                         {('Marten', 1), ('Peter', 1)})
+        self.assertEqual(self.ChatStats.active_users, {'Marten': 1, 'Peter': 1})
 
     def test_most_active_days(self):
         self.ChatStats.most_active_days()
-        self.assertEqual(self.ChatStats.active_days, [('Sunday', 2)])
+        self.assertEqual(self.ChatStats.active_days, {'Sunday': 2})
 
     def test_repliers(self):
         self.ChatStats.replier_count()
